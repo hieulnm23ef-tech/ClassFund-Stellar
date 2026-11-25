@@ -1,3 +1,4 @@
+stellar keys address student ; Start-Process "https://stellar.expert/explorer/testnet/contract/CB2V7QYZHGZ4QA7IOAR4J42MKXCHGZ2APBBDM7MCXPFENXJCQZZFLI4M" ; @'
 # Project Title
 
 CafePoints
@@ -22,5 +23,41 @@ To replace easily lost paper loyalty cards and make point tracking transparent a
 
 Build the contract from the workspace:
 
-```powershell
 stellar contract build
+
+Deploy the compiled WASM to Stellar Testnet:
+
+stellar contract deploy --wasm target/wasm32v1-none/release/hello_world.wasm --source-account student --network testnet --alias my-contract
+
+Invoke the contract functions on Testnet (replace `student` and `my-contract` as needed):
+
+stellar contract invoke --id my-contract --source-account student --network testnet -- init --admin student
+
+stellar contract invoke --id my-contract --source-account student --network testnet -- add_points --admin student --customer student --points 100
+
+stellar contract invoke --id my-contract --source-account student --network testnet -- redeem_points --customer student --points 30 --reward "Discount voucher"
+
+stellar contract invoke --id my-contract --source-account student --network testnet -- get_points --customer student
+
+stellar contract invoke --id my-contract --source-account student --network testnet -- get_total_issued
+
+# Future Scope
+
+- Reward catalog management and on-chain redemption verification or voucher issuance.
+- Point expiration rules, tier levels, or bonus point rules.
+- Admin transfer or multi-staff operator roles.
+- Frontend web or mobile interface for shop staff and customers.
+
+# Technology Stack
+
+- Rust (`no_std`)
+- Soroban SDK (`soroban-sdk` v29)
+- Stellar CLI (`stellar`)
+- Stellar Testnet
+
+# Contract Detail
+
+Contract ID: CB2V7QYZHGZ4QA7IOAR4J42MKXCHGZ2APBBDM7MCXPFENXJCQZZFLI4M
+Deployer: 
+![Contract on Stellar Expert](image.png)
+'@ | Set-Content -Path ".\README.md" -Encoding UTF8
